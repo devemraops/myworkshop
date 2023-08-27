@@ -1,0 +1,19 @@
+# Production version
+
+FROM node:8.15.1-alpine
+RUN apk add --no-cache curl
+RUN mkdir -p /home/node/app/node_modules && chown -R node:node /home/node/app
+
+WORKDIR /home/node/app
+
+COPY ./package.json ./
+
+RUN npm install
+
+COPY . .
+
+# Info to devs and others that this container needs to have port 3000 exposed externally,
+# i.e. this instruction does not do anything more than info
+EXPOSE 3000
+
+CMD ["npm", "start"]
